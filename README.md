@@ -8,32 +8,32 @@ $ open https://git-scm.com
 
 ## Tasks
 
-- [ ] 1. Создать публичный репозиторий с названием **lab03** и с лиценцией **MIT**
-- [ ] 2. Ознакомиться со ссылками учебного материала
-- [ ] 3. Выполнить инструкцию учебного материала
-- [ ] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 1. Создать публичный репозиторий с названием **lab03** и с лиценцией **MIT**
+- [x] 2. Ознакомиться со ссылками учебного материала
+- [x] 3. Выполнить инструкцию учебного материала
+- [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
 ```ShellSession
-$ export GITHUB_USERNAME=<имя_пользователя>
-$ export GITHUB_EMAIL=<адрес_почтового_ящика>
-$ alias edit=<nano|vi|vim|subl>
+$ export GITHUB_USERNAME=komissarovrodion21 #задаем значение переменной GITHUB_USERNAME
+$ export GITHUB_EMAIL=komissarovrodion1@gmail.com #задаем значение переменной GITHUB_EMAIL
+$ alias edit=nano #cоздаем алиас редактором nano
 ```
 
 ```ShellSession
-$ mkdir lab03 && cd lab03
-$ git init
-$ git config --global user.name ${GITHUB_USERNAME}
-$ git config --global user.email ${GITHUB_EMAIL}
-$ git config -e --global
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab03
-$ git pull origin master
-$ touch README.md
-$ git status
-$ git add README.md
-$ git commit -m"added README.md"
-$ git push origin master
+$ mkdir lab3 && cd lab3 #cоздаем директорию lab3 и переходим в нее
+$ git init #cоздаем репозиторий git
+$ git config --global user.name ${GITHUB_USERNAME} #устанавливаем параметры user.name
+$ git config --global user.email ${GITHUB_EMAIL} #устанавливаем параметры user.email
+$ git config -e --global #открываем файл
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab3 #добавляем удаленный репозиторий по ссылке
+$ git pull origin master #копируем содержимое удаленного репозитория в локальный
+$ touch README.md #создаем файл
+$ git status #отображаем файлы в репозиториях(подтвержденные и неподтвержденные)
+$ git add README.md #добавляем этот файл в подтвержденные
+$ git commit -m"added README.md" #отправляем файл в удаленный репозиторий 
+$ git push origin master #сохраняем изменения на удаленном репозитории
 ```
 
 Добавить на сервисе **GitHub** в репозитории **lab03** файл **.gitignore**
@@ -46,14 +46,15 @@ $ git push origin master
 ```
 
 ```ShellSession
-$ git pull origin master
-$ git log
+$ git pull origin master #копируем содержимое удаленного репозитория в локальный
+$ git log #открываем журнал всех изменений 
 ```
 
 ```ShellSession
-$ mkdir sources
-$ mkdir include
-$ mkdir examples
+$ mkdir sources #cоздаем каталог sources
+$ mkdir include #cоздаем каталог include
+$ mkdir examples #cоздаем каталог examples
+# Создаем файлыи добавляем в них код
 $ cat > sources/print.cpp <<EOF
 #include <print.hpp>
 
@@ -105,10 +106,10 @@ $ edit README.md
 ```
 
 ```ShellSession
-$ git status
-$ git add .
-$ git commit -m"added sources"
-$ git push origin master
+$ git status #проверяем статус файлов
+$ git add . 
+$ git commit -m"added sources" #отправляем данные 
+$ git push origin master #вливаем локальные изменения в удаленный репозиторий
 ```
 
 ## Report
