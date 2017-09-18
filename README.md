@@ -54,7 +54,7 @@ $ git log #открываем журнал всех изменений
 $ mkdir sources #cоздаем каталог sources
 $ mkdir include #cоздаем каталог include
 $ mkdir examples #cоздаем каталог examples
-# Создаем файлыи добавляем в них код
+#создаем файлы и добавляем в них код
 $ cat > sources/print.cpp <<EOF
 #include <print.hpp>
 
@@ -116,7 +116,7 @@ $ git push origin master #вливаем локальные изменения �
 
 ```ShellSession
 $ cd ~/workspace/labs/
-$ export LAB_NUMBER=03
+$ export LAB_NUMBER=3
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
