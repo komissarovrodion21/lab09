@@ -14,13 +14,13 @@ $ open https://git-scm.com
 - [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
-
+Задаем параметры для Git
 ```ShellSession
 $ export GITHUB_USERNAME=komissarovrodion21 #задаем значение переменной GITHUB_USERNAME
 $ export GITHUB_EMAIL=komissarovrodion1@gmail.com #задаем значение переменной GITHUB_EMAIL
 $ alias edit=nano #cоздаем алиас редактором nano
 ```
-
+Работаем сдирректориями и создаем репозиторий
 ```ShellSession
 $ mkdir lab3 && cd lab3 #cоздаем директорию lab3 и переходим в нее
 $ git init #cоздаем репозиторий git
@@ -44,12 +44,12 @@ $ git push origin master #сохраняем изменения на удале�
 *install*/
 *.swp
 ```
-
+Копируем содержимое и открываем журнал всех изменений 
 ```ShellSession
 $ git pull origin master #копируем содержимое удаленного репозитория в локальный
 $ git log #открываем журнал всех изменений 
 ```
-
+Работа с директориями, создание файла и добавление в него информации
 ```ShellSession
 $ mkdir sources #cоздаем каталог sources
 $ mkdir include #cоздаем каталог include
@@ -67,7 +67,7 @@ void print(const std::string& text, std::ofstream& out) {
 }
 EOF
 ```
-
+Создание файла и добавление в него информации
 ```ShellSession
 $ cat > include/print.hpp <<EOF
 #include <string>
@@ -78,7 +78,7 @@ void print(const std::string& text, std::ostream& out = std::cout);
 void print(const std::string& text, std::ofstream& out);
 EOF
 ```
-
+Создание файла и добавление в него информации
 ```ShellSession
 $ cat > examples/example1.cpp <<EOF
 #include <print.hpp>
@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
 }
 EOF
 ```
-
+Создание файла и добавление в него информации
 ```ShellSession
 $ cat > examples/example2.cpp <<EOF
 #include <fstream>
@@ -100,11 +100,11 @@ int main(int argc, char** argv) {
 }
 EOF
 ```
-
+Вносим изменения в файл
 ```ShellSession
 $ edit README.md
 ```
-
+Отправляем файлы в Github
 ```ShellSession
 $ git status #проверяем статус файлов
 $ git add . 
