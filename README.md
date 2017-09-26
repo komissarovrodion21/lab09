@@ -21,7 +21,7 @@ $ export GITHUB_USERNAME=<имя_пользователя>
 ```
 Настройки для соединения с репозиторием четвертой лабораторной работы
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab03.git lab04#клонирование репозитория третьей лабораторной в локальный каталог четвертой лабораторной
+$ git clone https://github.com/${GITHUB_USERNAME}/lab03.git lab04 #клонирование репозитория третьей лабораторной в локальный каталог четвертой лабораторной
 $ cd lab04 #выбираем директорию lab04
 $ git remote remove origin #отключаемся от удаленного репозитория 3 лабораторной
 $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04.git #подключаемся к удаленному репозиторию 4 лабораторной
