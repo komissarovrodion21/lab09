@@ -21,7 +21,7 @@ $ export GITHUB_USERNAME=<имя_пользователя>
 ```
 Настройки для соединения с репозиторием четвертой лабораторной работы
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab03.git lab04 #клонирование репозитория третьей лабораторной в локальный каталог четвертой лабораторной
+$ git clone https://github.com/${GITHUB_USERNAME}/lab03.git lab04 #клонирование репозитория lab03 в lab04
 $ cd lab04 #выбираем директорию lab04
 $ git remote remove origin #отключаемся от удаленного репозитория 3 лабораторной
 $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04.git #подключаемся к удаленному репозиторию 4 лабораторной
@@ -29,53 +29,53 @@ $ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04.git #под�
 Подготовка CMake
 ```ShellSession
 $ g++ -I./include -std=c++11 -c sources/print.cpp #добавляем print.cpp в среду обработки
-$ ls print.o #проверяем наличие файла print.o
-$ ar rvs print.a print.o #создаем архив print.a с print.o внутри него
-$ file print.a #проверяем наличие файла print.a
+$ ls print.o #проверяем файл print.o
+$ ar rvs print.a print.o #создаем архив print.a с print.o
+$ file print.a #проверяем файл print.a
 $ g++ -I./include -std=c++11 -c examples/example1.cpp #добавляем example1.cpp в среду обработки
 $ ls example1.o #проверяем наличие файла example1.o
-$ g++ example1.o print.a -o example1 #собираем проект из example1 и print.
+$ g++ example1.o print.a -o example1 #собираем проект 
 $ ./example1 && echo #запускаем проект и печатаем строку
 ```
 
 ```ShellSession
-$ g++ -I./include -std=c++11 -c examples/example2.cpp
-$ ls example2.o
-$ g++ example2.o print.a -o example2
-$ ./example2
-$ cat log.txt && echo
+$ g++ -I./include -std=c++11 -c examples/example2.cpp #добавляем example2.cpp в среду обработки
+$ ls example2.o #проверяем файл example2.o
+$ g++ example2.o print.a -o example2 #собираем проект 
+$ ./example2 #запускаем
+$ cat log.txt && echo #записываем в log.txt и выводим на экран содержимое файла
 ```
-
+Удаление файлов 
 ```ShellSession
-$ rm -rf example1.o example2.o print.o 
-$ rm -rf print.a 
-$ rm -rf example1 example2
-$ rm -rf log.txt
+$ rm -rf example1.o example2.o print.o #удаляем объектные файлы
+$ rm -rf print.a #удаляем архив
+$ rm -rf example1 example2 #удаляем example1 и example2
+$ rm -rf log.txt #удаляем log.txt
 ```
-
+Работа с CMakeLists.txt
 ```ShellSession
 $ cat > CMakeLists.txt <<EOF
-cmake_minimum_required(VERSION 3.0)
-project(print)
+cmake_minimum_required(VERSION 3.0)#проверка версии CMake
+project(print) #название проекта
 EOF
 ```
 
 ```ShellSession
 $ cat >> CMakeLists.txt <<EOF
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11) #подключение 11-го стандарта
+set(CMAKE_CXX_STANDARD_REQUIRED ON) #активация стандарта
 EOF
 ```
 
 ```ShellSession
 $ cat >> CMakeLists.txt <<EOF
-add_library(print STATIC \${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp)
+add_library(print STATIC \${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp) #создание статической библиотеки print
 EOF
 ```
 
 ```ShellSession
 $ cat >> CMakeLists.txt <<EOF
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include) #
 EOF
 ```
 
