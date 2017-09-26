@@ -75,23 +75,23 @@ EOF
 
 ```ShellSession
 $ cat >> CMakeLists.txt <<EOF
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include) #
+include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include) #добавляем путь к include для заголовочных файлов
 EOF
 ```
 
 ```ShellSession
-$ cmake -H. -B_build
-$ cmake --build _build
+$ cmake -H. -B_build #сборка проекта в католок
+$ cmake --build _build #сборка и линовка проекта
 ```
-
+Создаем исполняемые файлы
 ```ShellSession
 $ cat >> CMakeLists.txt <<EOF
 
-add_executable(example1 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example1.cpp)
-add_executable(example2 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example2.cpp)
+add_executable(example1 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example1.cpp) #создаем файл с именем example1
+add_executable(example2 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example2.cpp) #создаем файл с именем example2
 EOF
 ```
-
+Линковка программ example1 и example2 с библиотекой print
 ```ShellSession
 $ cat >> CMakeLists.txt <<EOF
 
@@ -99,40 +99,40 @@ target_link_libraries(example1 print)
 target_link_libraries(example2 print)
 EOF
 ```
-
+Собираем проект
 ```ShellSession
-$ cmake --build _build
-$ cmake --build _build --target print
-$ cmake --build _build --target example1
-$ cmake --build _build --target example2
+$ cmake --build _build #запускаем сборку в каталоге _build
+$ cmake --build _build --target print #сборка цели print
+$ cmake --build _build --target example1 #Сборка example1
+$ cmake --build _build --target example2 #Сборка example2
 ```
 
 ```ShellSession
-$ ls -la _build/libprint.a
-$ _build/example1 && echo
+$ ls -la _build/libprint.a  
+$ _build/example1 && echo #сборка и вывод на экран файла
 hello
-$ _build/example2
+$ _build/example2 #сборка example2
 $ cat log.txt && echo
 hello
 ```
-
+Скачиваем файл CMakeLists.txt из репозитория lab04
 ```ShellSession
-$ git clone https://github.com/tp-labs/lab04 tmp
-$ mv -f tmp/CMakeLists.txt .
-$ rm -rf tmp
+$ git clone https://github.com/tp-labs/lab04 tmp #копирование
+$ mv -f tmp/CMakeLists.txt . #перемещение в tmp/CMakeLists.txt
+$ rm -rf tmp #удаляем файл tmp
 ```
-
+Настройки CMake
 ```ShellSession
-$ cat CMakeLists.txt
-$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
-$ cmake --build _build --target install
-$ tree _install
+$ cat CMakeLists.txt #выводим файл
+$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install #сборка проекта с -DCMAKE_INSTALL_PREFIX
+$ cmake --build _build --target install #сборка проекта print
+$ tree _install #выводим в консоль структуру проекта
 ```
-
+Отправка изменений в Github
 ```ShellSession
-$ git add CMakeLists.txt
-$ git commit -m"added CMakeLists.txt"
-$ git push origin master
+$ git add CMakeLists.txt #добавляем CMakeLists.txt в подтвержденные файлы
+$ git commit -m"added CMakeLists.txt" #создаем коммит 
+$ git push origin master #выгружаем файлы
 ```
 
 ## Report
