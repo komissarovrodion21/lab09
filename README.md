@@ -9,33 +9,33 @@ $ open https://travis-ci.org
 
 ## Tasks
 
-- [ ] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
-- [ ] 2. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
-- [ ] 3. Ознакомиться со ссылками учебного материала
-- [ ] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
-- [ ] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
-- [ ] 6. Получить фрагмент вставки значка сервиса **Travis CI** в формате **Markdown**
-- [ ] 7. Установить [**Travis CLI**](https://github.com/travis-ci/travis.rb#installation)
-- [ ] 8. Выполнить инструкцию учебного материала
-- [ ] 9. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
+- [x] 2. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
+- [x] 3. Ознакомиться со ссылками учебного материала
+- [x] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
+- [x] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
+- [x] 6. Получить фрагмент вставки значка сервиса **Travis CI** в формате **Markdown**
+- [x] 7. Установить [**Travis CLI**](https://github.com/travis-ci/travis.rb#installation)
+- [x] 8. Выполнить инструкцию учебного материала
+- [x] 9. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
-
+Первоначальные настройки
 ```ShellSession
-$ export GITHUB_USERNAME=<имя_пользователя>
-$ export GITHUB_TOKEN=<полученный_токен>
+$ export GITHUB_USERNAME=<имя_пользователя> #устанавливаем значение переменной GITHUB_USERNAME
+$ export GITHUB_TOKEN=<полученный_токен> #устанавливаем значение переменной GITHUB_TOKEN
 ```
-
+Настройки для соединения с репозиторием пятой лабораторной работы
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab04 lab05
-$ cd lab05
-$ git remote remove origin
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab05
+$ git clone https://github.com/${GITHUB_USERNAME}/lab04 lab05 #клонирование репозитория lab04 в lab05
+$ cd lab05 #выбираем директорию lab05
+$ git remote remove origin #отключаемся от удаленного репозитория 4 лабораторной
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab05 #подключаемся к удаленному репозиторию 5 лабораторной
 ```
-
+Вносим параметры в конфиг файла для travis-ci - .travis.yml
 ```ShellSession
 $ cat > .travis.yml <<EOF
-language: cpp
+language: cpp #Показываем что язык программирования с++
 EOF
 ```
 
