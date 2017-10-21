@@ -1,146 +1,103 @@
 [![Build Status](https://travis-ci.org/komissarovrodion21/lab05.svg?branch=master)](https://travis-ci.org/komissarovrodion21/lab05)
-## Laboratory work IV
+## Laboratory work V
 
-Данная лабораторная работа посвещена изучению систем автоматизации сборки проекта на примере **CMake**
+Данная лабораторная работа посвещена изучению систем непрерывной интеграции на примере сервиса **Travis CI**
 
 ```ShellSession
-$ open https://cmake.org/
+$ open https://travis-ci.org
 ```
 
 ## Tasks
 
-- [x] 1. Создать публичный репозиторий с названием **lab04** на сервисе **GitHub**
-- [x] 2. Ознакомиться со ссылками учебного материала
-- [x] 3. Выполнить инструкцию учебного материала
-- [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [ ] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
+- [ ] 2. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
+- [ ] 3. Ознакомиться со ссылками учебного материала
+- [ ] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
+- [ ] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
+- [ ] 6. Получить фрагмент вставки значка сервиса **Travis CI** в формате **Markdown**
+- [ ] 7. Установить [**Travis CLI**](https://github.com/travis-ci/travis.rb#installation)
+- [ ] 8. Выполнить инструкцию учебного материала
+- [ ] 9. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
 ```ShellSession
-#устанавливаем значение переменной GITHUB_USERNAME
 $ export GITHUB_USERNAME=<имя_пользователя>
-```
-Настройки для соединения с репозиторием четвертой лабораторной работы
-```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab03.git lab04 #клонирование репозитория lab03 в lab04
-$ cd lab04 #выбираем директорию lab04
-$ git remote remove origin #отключаемся от удаленного репозитория 3 лабораторной
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04.git #подключаемся к удаленному репозиторию 4 лабораторной
-```
-Подготовка CMake
-```ShellSession
-$ g++ -I./include -std=c++11 -c sources/print.cpp #добавляем print.cpp в среду обработки
-$ ls print.o #проверяем файл print.o
-$ ar rvs print.a print.o #создаем архив print.a с print.o
-$ file print.a #проверяем файл print.a
-$ g++ -I./include -std=c++11 -c examples/example1.cpp #добавляем example1.cpp в среду обработки
-$ ls example1.o #проверяем наличие файла example1.o
-$ g++ example1.o print.a -o example1 #собираем проект 
-$ ./example1 && echo #запускаем проект и печатаем строку
+$ export GITHUB_TOKEN=<полученный_токен>
 ```
 
 ```ShellSession
-$ g++ -I./include -std=c++11 -c examples/example2.cpp #добавляем example2.cpp в среду обработки
-$ ls example2.o #проверяем файл example2.o
-$ g++ example2.o print.a -o example2 #собираем проект 
-$ ./example2 #запускаем
-$ cat log.txt && echo #записываем в log.txt и выводим на экран содержимое файла
+$ git clone https://github.com/${GITHUB_USERNAME}/lab04 lab05
+$ cd lab05
+$ git remote remove origin
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab05
 ```
-Удаление файлов 
+
 ```ShellSession
-$ rm -rf example1.o example2.o print.o #удаляем объектные файлы
-$ rm -rf print.a #удаляем архив
-$ rm -rf example1 example2 #удаляем example1 и example2
-$ rm -rf log.txt #удаляем log.txt
-```
-Работа с CMakeLists.txt
-```ShellSession
-$ cat > CMakeLists.txt <<EOF
-cmake_minimum_required(VERSION 3.0)#проверка версии CMake
-project(print) #название проекта
+$ cat > .travis.yml <<EOF
+language: cpp
 EOF
 ```
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-set(CMAKE_CXX_STANDARD 11) #подключение 11-го стандарта
-set(CMAKE_CXX_STANDARD_REQUIRED ON) #активация стандарта
+$ cat >> .travis.yml <<EOF
+
+script:
+- cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+- cmake --build _build
+- cmake --build _build --target install
 EOF
 ```
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-add_library(print STATIC \${CMAKE_CURRENT_SOURCE_DIR}/sources/print.cpp) #создание статической библиотеки print
+$ cat >> .travis.yml <<EOF
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
 EOF
 ```
 
 ```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR}/include) #добавляем путь к include для заголовочных файлов
-EOF
+$ travis login --github-token ${GITHUB_TOKEN}
 ```
 
 ```ShellSession
-$ cmake -H. -B_build #сборка проекта в католок
-$ cmake --build _build #сборка и линовка проекта
-```
-Создаем исполняемые файлы
-```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-
-add_executable(example1 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example1.cpp) #создаем файл с именем example1
-add_executable(example2 \${CMAKE_CURRENT_SOURCE_DIR}/examples/example2.cpp) #создаем файл с именем example2
-EOF
-```
-Линковка программ example1 и example2 с библиотекой print
-```ShellSession
-$ cat >> CMakeLists.txt <<EOF
-
-target_link_libraries(example1 print)
-target_link_libraries(example2 print)
-EOF
-```
-Собираем проект
-```ShellSession
-$ cmake --build _build #запускаем сборку в каталоге _build
-$ cmake --build _build --target print #сборка цели print
-$ cmake --build _build --target example1 #Сборка example1
-$ cmake --build _build --target example2 #Сборка example2
+$ travis lint
 ```
 
 ```ShellSession
-$ ls -la _build/libprint.a  
-$ _build/example1 && echo #сборка и вывод на экран файла
-hello
-$ _build/example2 #сборка example2
-$ cat log.txt && echo
-hello
+$ ex -sc '1i|<фрагмент_вставки_значка>' -cx README.md
 ```
-Скачиваем файл CMakeLists.txt из репозитория lab04
+
 ```ShellSession
-$ git clone https://github.com/tp-labs/lab04 tmp #копирование
-$ mv -f tmp/CMakeLists.txt . #перемещение в tmp/CMakeLists.txt
-$ rm -rf tmp #удаляем файл tmp
+$ git add .travis.yml
+$ git add README.md
+$ git commit -m"added CI"
+$ git push origin master
 ```
-Настройки CMake
+
 ```ShellSession
-$ cat CMakeLists.txt #выводим файл
-$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install #сборка проекта с -DCMAKE_INSTALL_PREFIX
-$ cmake --build _build --target install #сборка проекта print
-$ tree _install #выводим в консоль структуру проекта
-```
-Отправка изменений в Github
-```ShellSession
-$ git add CMakeLists.txt #добавляем CMakeLists.txt в подтвержденные файлы
-$ git commit -m"added CMakeLists.txt" #создаем коммит 
-$ git push origin master #выгружаем файлы
+$ travis lint
+$ travis accounts
+$ travis sync
+$ travis repos
+$ travis enable
+$ travis whatsup
+$ travis branches
+$ travis history
+$ travis show
 ```
 
 ## Report
 
 ```ShellSession
 $ cd ~/workspace/labs/
-$ export LAB_NUMBER=04
+$ export LAB_NUMBER=05
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -151,8 +108,9 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Links
 
-- [Autotools](http://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)
-- [CMake](https://cgold.readthedocs.io/en/latest/index.html)
+- [Travis Client](https://github.com/travis-ci/travis.rb)
+- [AppVeyour](https://www.appveyor.com/)
+- [GitLab CI](https://about.gitlab.com/gitlab-ci/)
 
 ```
 Copyright (c) 2017 Братья Вершинины
