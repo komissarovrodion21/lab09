@@ -9,45 +9,39 @@ $ open https://github.com/philsquared/Catch
 
 ## Tasks
 
-- [ ] 1. Создать публичный репозиторий с названием **lab06** на сервисе **GitHub**
-- [ ] 2. Выполнить инструкцию учебного материала
-- [ ] 3. Ознакомиться со ссылками учебного материала
-- [ ] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [x] 1. Создать публичный репозиторий с названием **lab06** на сервисе **GitHub**
+- [x] 2. Выполнить инструкцию учебного материала
+- [x] 3. Ознакомиться со ссылками учебного материала
+- [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 
 ```ShellSession
+#устанавливаем значение переменной GITHUB_USERNAME
 $ export GITHUB_USERNAME=<имя_пользователя>
-$ alias gsed=sed # for *-nix system
 ```
 
 ```ShellSession
-$ cd ${GITHUB_USERNAME}/workspace
-$ pushd .
-$ source scripts/activate
+$ git clone https://github.com/${GITHUB_USERNAME}/lab05 projects/lab06 #клонирование репозитория 5 лабораторной в локальный каталог 6 лабораторной
+$ cd projects/lab06 #выбираем директорию lab06
+$ git remote remove origin #отключаемся от удаленного репозитория 5 лабораторной
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab06 #подключаемся к удаленному репозиторию 6 лабораторной
 ```
 
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab05 projects/lab06
-$ cd projects/lab06
-$ git remote remove origin
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab06
-```
-
-```ShellSession
-$ mkdir tests
-$ wget https://github.com/philsquared/Catch/releases/download/v1.9.3/catch.hpp -O tests/catch.hpp
-$ cat > tests/main.cpp <<EOF
+$ mkdir tests #создаем каталог tests
+$ wget https://github.com/philsquared/Catch/releases/download/v1.9.3/catch.hpp -O tests/catch.hpp #устанавливаем библиотеку для модульного тестирования на языке С++ catch.hpp
+$ cat > tests/main.cpp <<EOF #вносим изменения в main.cpp, подключая к нему catch.hpp
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 EOF
 ```
 
 ```ShellSession
-$ gsed -i '/option(BUILD_EXAMPLES "Build examples" OFF)/a\
+$ §sed -i '/option(BUILD_EXAMPLES "Build examples" OFF)/a\ #добавляем опцию option(BUILD_TESTS "Build tests" OFF) в файл CMakeLists.txt
 option(BUILD_TESTS "Build tests" OFF)
 ' CMakeLists.txt
-$ cat >> CMakeLists.txt <<EOF
+$ cat >> CMakeLists.txt <<EOF #добавляем настройки в CMakeLists.txt
 
 if(BUILD_TESTS)
 	enable_testing()
@@ -58,9 +52,9 @@ if(BUILD_TESTS)
 endif()
 EOF
 ```
-
+Изменения в test1.cpp
 ```ShellSession
-$ cat >> tests/test1.cpp <<EOF
+$ cat >> tests/test1.cpp <<EOF #вносим изменения в test1.cpp
 #include "catch.hpp"
 #include <print.hpp>
 
@@ -79,46 +73,39 @@ TEST_CASE("output values should match input values", "[file]") {
 }
 EOF
 ```
-
+CMake
 ```ShellSession
-$ cmake -H. -B_build -DBUILD_TESTS=ON
-$ cmake --build _build
-$ cmake --build _build --target test
+$ cmake -H. -B_build -DBUILD_TESTS=ON #-H. устанавливаем каталог,-B_build указывает директорию для собираемых файлов,-D - заменяет команду set
+$ cmake --build _build  #--build _build создает бинарное дерево проекта
+$ cmake --build _build --target test #--target указывает необходимые для обработки цели
 ```
 
 ```ShellSession
-$ _build/check -s -r compact
-$ cmake --build _build --target test -- ARGS=--verbose 
-```
-
-```ShellSession
-$ gsed -i 's/lab05/lab06/g' README.md
-$ gsed -i 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml
-$ gsed -i '/cmake --build _build --target install/a\
+$ sed -i 's/lab05/lab06/g' README.md #вносим изменения в файле README.md
+$ sed -i 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml #вносим изменения в файле .travis.yml
+$ sed -i '/cmake --build _build --target install/a\ #вносим изменения в файле .travis.yml
 - cmake --build _build --target test -- ARGS=--verbose
 ' .travis.yml
 ```
-
+Отображаем предупреждения или ошибки в файле .travis.yml
 ```ShellSession
 $ travis lint
 ```
 
 ```ShellSession
-$ git add .
-$ git commit -m"added tests"
-$ git push origin master
+$ git add . #добавляем все отредактированные файлы в подтвержденные
+$ git commit -m"added tests" #создаем коммит
+$ git push origin master #выгружаем локальную репозиторий в удаленный репозиторий шестой лабораторной
 ```
 
 ```ShellSession
-$ travis login --auto
-$ travis enable
+$ travis login --auto #авторизуемся своим GITHUB аккаунтом
+$ travis enable #включаем репозиторий в Travis
 ```
 
 ```ShellSession
-$ mkdir artifacts
-$ sleep 20s && gnome-screenshot --file artifacts/screenshot.png
-# for macOS: $ screencapture -T 20 artifacts/screenshot.png
-# open https://github.com/${GITHUB_USERNAME}/lab06
+$ mkdir artifacts #создаем каталог artifacts
+$ open https://github.com/${GITHUB_USERNAME}/lab06 #открываем репозиторий шестой лабораторной на GitHub
 ```
 
 ## Report
