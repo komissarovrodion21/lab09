@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/komissarovrodion21/lab06.svg?branch=master)](https://travis-ci.org/komissarovrodion21/lab06)
+[![Build Status](https://travis-ci.org/komissarovrodion21/lab07.svg?branch=master)](https://travis-ci.org/komissarovrodion21/lab07)
 ## Laboratory work VI
 
 Данная лабораторная работа посвещена изучению фреймворков для тестирования на примере **Catch**
@@ -9,7 +9,7 @@ $ open https://github.com/philsquared/Catch
 
 ## Tasks
 
-- [x] 1. Создать публичный репозиторий с названием **lab06** на сервисе **GitHub**
+- [x] 1. Создать публичный репозиторий с названием **lab07** на сервисе **GitHub**
 - [x] 2. Выполнить инструкцию учебного материала
 - [x] 3. Ознакомиться со ссылками учебного материала
 - [x] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
@@ -22,10 +22,10 @@ $ export GITHUB_USERNAME=<имя_пользователя>
 ```
 
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab05 projects/lab06 #клонирование репозитория 5 лабораторной в локальный каталог 6 лабораторной
-$ cd projects/lab06 #выбираем директорию lab06
+$ git clone https://github.com/${GITHUB_USERNAME}/lab05 projects/lab07 #клонирование репозитория 5 лабораторной в локальный каталог 6 лабораторной
+$ cd projects/lab07 #выбираем директорию lab07
 $ git remote remove origin #отключаемся от удаленного репозитория 5 лабораторной
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab06 #подключаемся к удаленному репозиторию 6 лабораторной
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07 #подключаемся к удаленному репозиторию 6 лабораторной
 ```
 
 ```ShellSession
@@ -81,7 +81,7 @@ $ cmake --build _build --target test #--target указывает необход
 ```
 
 ```ShellSession
-$ sed -i 's/lab05/lab06/g' README.md #вносим изменения в файле README.md
+$ sed -i 's/lab05/lab07/g' README.md #вносим изменения в файле README.md
 $ sed -i 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml #вносим изменения в файле .travis.yml
 $ sed -i '/cmake --build _build --target install/a\ #вносим изменения в файле .travis.yml
 - cmake --build _build --target test -- ARGS=--verbose
@@ -105,7 +105,7 @@ $ travis enable #включаем репозиторий в Travis
 
 ```ShellSession
 $ mkdir artifacts #создаем каталог artifacts
-$ open https://github.com/${GITHUB_USERNAME}/lab06 #открываем репозиторий шестой лабораторной на GitHub
+$ open https://github.com/${GITHUB_USERNAME}/lab07 #открываем репозиторий шестой лабораторной на GitHub
 ```
 
 ## Report
