@@ -1,139 +1,115 @@
 [![Build Status](https://travis-ci.org/komissarovrodion21/lab08.svg?branch=master)](https://travis-ci.org/komissarovrodion21/lab08)
 ## Laboratory work IX
 
-
-Данная лабораторная работа посвещена изучению компонентов **Boost** на примере `program_options`
+Данная лабораторная работа посвещена изучению процесса создания пакета на примере **Github Release**
 
 ```ShellSession
-$ open http://www.boost.org/doc/libs/1_65_0/doc/html/program_options.html
+$ open https://help.github.com/articles/creating-releases/
 ```
 
 ## Tasks
 
-- [X] 1. Создать публичный репозиторий с названием **lab11** на сервисе **GitHub**
-- [X] 2. Выполнить инструкцию учебного материала
-- [X] 3. Ознакомиться со ссылками учебного материала
-- [X] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [X] 1. Создать публичный репозиторий с названием **lab09** на сервисе **GitHub**
+- [X] 2. Ознакомиться со ссылками учебного материала
+- [X] 3. Получить токен для доступа к репозиториям сервиса **GitHub**
+- [X] 4. Сгенерировать GPG ключ и добавить его к аккаунту сервиса **GitHub**
+- [X] 5. Выполнить инструкцию учебного материала
+- [X] 6. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
 Делаем первоначальные настройки, добавляя значения переменным окружения
 ```ShellSession
-#Устанавливаем значение переменной окружения GITHUB_USERNAME
-$ export GITHUB_USERNAME=komissarovrodion21
-$ alias edit=nano
+$ export GITHUB_TOKEN=<полученный_токен> #устанавливаем значение переменной окружения GITHUB_TOKEN
+$ export GITHUB_USERNAME=komissarovrodion21 #устанавливаем значение переменной окружения GITHUB_USERNAME
 ```
-
+Проводим первоначальные настройки, устанавливаем github-release
 ```ShellSession
 $ cd ${GITHUB_USERNAME}/workspace
 $ pushd .
 $ source scripts/activate
+$ go get github.com/aktau/github-release
 ```
-
-Проводим первоначальные настройки для соединения с репозиторием 11 лабораторной работы
+Проводим первоначальные настройки для соединения с репозиторием девятой лабораторной работы
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab10 lab11 #клонирование удаленного репозитория 10 лабораторной в локальный каталог 11 лабораторной
-$ cd lab11 #меняем директорию на lab11
-$ git remote remove origin #Отключаемся от удаленного репозитория 10 лабораторной
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab11 #подключаемся к удаленному репозиторию 11 лабораторной
+$ git clone https://github.com/${GITHUB_USERNAME}/lab08 projects/lab09 #клонирование удаленного репозитория восьмой лабораторной в локальный каталог девятой лабораторной
+$ cd projects/lab09 #меняем директорию на lab09
+$ git remote remove origin #отключаемся от удаленного репозитория восьмой лабораторной
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab09 #подключаемся к удаленному репозиторию девятой лабораторной
 
 ```
-#Подключаем пакеты boost::program_options через Hunter и редактируем demo.cpp, используя пакет boost::program_options для выполнения дальнейших команд
+Вносим изменения в README.md
 ```ShellSession
-# boost::program_options
-$ edit CMakeLists.txt #редактируем CMakeLists.txt
-$ edit sources/demo.cpp #редактируем sources/demo.cpp
-
+$ gsed -i 's/lab08/lab09/g' README.md #вносим изменения в README.md
 ```
-
 Работа с CMake
 ```ShellSession
-$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install #-H. устанавливаем каталог в который сгенерируется файл CMakeLists.txt,-B_build указывает директорию для собираемых файлов,-D - заменяет команду set
-$ cmake --build _build --target install #--build _build создает бинарное дерево проекта, --target указывает необходимые для обработки цели
-$ mkdir artifacts && cd artifacts #создаем директорию artifacts меняем директорию на artifacts
+$ cmake -H. -B_build -DCPACK_GENERATOR="TGZ"
+#-H. устанавливаем каталог в который сгенерируется файл CMakeLists.txt,-B_build указывает директорию для собираемых файлов,-D - заменяет команду set
+$ cmake --build _build --target package #--build _build создает бинарное дерево проекта,--target указывает необходимые для обработки цели
 
-```
-Создаем default.log
-```ShellSession
-
-$ echo "text1 text2 text3" | ../_install/bin/demo #c помощью программы записываем "text1 text2 text3" в default.log
-$ test -f default.log #проверяем наличие данного файла
-#Если 0, то файл существует, что соответствует истине
-$ echo $?
-0
-```
-Создаем config.log
-```ShellSession
-$ mkdir ${HOME}/.config #создаем директорию ${HOME}/.config
-$ echo "output=config.log" > ${HOME}/.config/demo.cfg #вводим в demo.cfg значение output=config.log для дальнейшего вывода
-$ echo "text1 text2 text3" | ../_install/bin/demo #с помощью нашей программы записываем "text1 text2 text3" в config.log
-$ test -f config.log#проверяем наличие данного файла
-#Если 0, то файл существует, что соответствует истине
-$ echo $?
-0
-```
-Создаем env.log
-```ShellSession
-$ export DEMO_OUTPUT=env.log #экспортируем глобальную переменную окружения DEMO_OUTPUT
-$ echo "text1 text2 text3" | ../_install/bin/demo #с помощью нашей программы записываем "text1 text2 text3" в env.log
-$ test -f env.log#проверяем наличие данного файла
-#Если 0, то файл существует, что соответствует истине
-$ echo $?
-0
-```
-Создаем arg.log
-```ShellSession
-$ echo "text1 text2 text3" | ../_install/bin/demo --output arg.log #с помощью нашей программы записываем "text1 text2 text3" в arg.log, задавая его с помощью --output
-$ test -f arg.log #проверяем наличие данного файла
-#Если 0, то файл существует, что соответствует истине
-$ echo $?
-0
-```
-Редактируем README.md
-```ShellSession
-#редактируем README.md
-gsed -i 's/lab10/lab11/g' README.md
-```
-Редактируем .travis.yml
-```ShellSession
-$ cat >> .travis.yml <<EOF
-- cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
-- cmake --build _build --target install
-- mkdir artifacts && cd artifacts
-- echo "text1 text2 text3" | ../_install/bin/demo
-- test -f default.log
-- mkdir ${HOME}/.config
-- echo "output=config.log" > ${HOME}/.config/demo.cfg
-- echo "text1 text2 text3" | ../_install/bin/demo
-- test -f config.log
-- export DEMO_OUTPUT=env.log
-- echo "text1 text2 text3" | ../_install/bin/demo
-- test -f env.log
-- echo "text1 text2 text3" | ../_install/bin/demo --output arg.log
-- test -f arg.log
-EOF
-```
-Отправка на удаленный репозиторий 11 лабораторной работы
-```ShellSession
-#Добавляем все отредактированные файлы в подтвержденные
-$ git add .
-Создаем коммит с сообщением
-$ git commit -m"changed format output"
-#Выгружаем локальный репозиторий в удаленный репозиторий 11 лабораторной
-$ git push origin master
 ```
 Работа с Travis
 ```ShellSession
-#Авторизуемся своим GITHUB аккаунтом
-$ travis login --auto
-#Включаем репозиторий в Travis
-$ travis enable
+$ travis login –auto #авторизуемся своим GITHUB аккаунтом
+$ travis enable #включаем репозиторий в Travis
+
+```
+
+```ShellSession
+$ git tag -s v0.1.0.0 #создаем тэг с GPG сигнатурой
+$ git tag -v v0.1.0.0 #проверяем GPG сигнатуру созданного нами тэга 
+$ git push origin master –tags #отправляем на удаленную ветку все теги локальной ветки
+
+```
+Работа с github-release
+```ShellSession
+//Вывод версии github-release
+$ github-release --version
+$ github-release info -u ${GITHUB_USERNAME} -r lab09
+#Делаем релиз задавая параметры
+$ github-release release \
+#Пользователя
+    --user ${GITHUB_USERNAME} \
+#Репозитория
+    --repo lab09 \
+#Используемого тага
+    --tag v0.1.0.0 \
+#Имени
+    --name "libprint" \
+#Описания релиза
+    --description "my first release"
+```
+Работа с github-release
+```ShellSession
+$ export PACKAGE_OS=`uname -s` PACKAGE_ARCH=`uname -m` #устанавливаем значение переменной окружения PACKAGE_OS и PACKAGE_ARCH
+$ export PACKAGE_FILENAME=print-${PACKAGE_OS}-${PACKAGE_ARCH}.tar.gz #устанавливаем значение переменной окружения PACKAGE_FILENAME
+#Загружаем наш релиз устанавливая параметры
+$ github-release upload \
+#Имени пользователя
+    --user ${GITHUB_USERNAME} \
+#Репозитория    
+    --repo lab09 \
+#Тэга
+    --tag v0.1.0.0 \
+#Имени пакета
+    --name "${PACKAGE_FILENAME}" \
+#Используемого файла
+    --file _build/*.tar.gz
+```
+
+```ShellSession
+$ github-release info -u ${GITHUB_USERNAME} -r lab09
+#Устанавливаем пакет по ссылке
+$ wget https://github.com/${GITHUB_USERNAME}/lab09/releases/download/v0.1.0.0/${PACKAGE_FILENAME}
+#Разархивируем его
+$ tar -ztf ${PACKAGE_FILENAME}
 ```
 
 ## Report
 
 ```ShellSession
 $ popd
-$ export LAB_NUMBER=11
+$ export LAB_NUMBER=09
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -144,15 +120,11 @@ $ gistup -m "lab${LAB_NUMBER}"
 
 ## Links
 
-- [String Algorithms](http://www.boost.org/doc/libs/1_65_0/doc/html/string_algo.html)
-- [Date Time](http://www.boost.org/doc/libs/1_65_0/doc/html/date_time.html)
-- [DLL](http://www.boost.org/doc/libs/1_65_0/doc/html/boost_dll.html)
-- [Heap](http://www.boost.org/doc/libs/1_65_0/doc/html/heap.html)
-- [Interprocess](http://www.boost.org/doc/libs/1_65_0/doc/html/interprocess.html)
-- [Lockfree](http://www.boost.org/doc/libs/1_65_0/doc/html/lockfree.html)
-- [Lexicalcast](http://www.boost.org/doc/libs/1_65_0/doc/html/boost_lexical_cast.html)
-- [Property Tree](http://www.boost.org/doc/libs/1_65_0/doc/html/property_tree.html)
+- [Create Release](https://help.github.com/articles/creating-releases/)
+- [Get GitHub Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+- [Signing Commits](https://help.github.com/articles/signing-commits-with-gpg/)
+- [Go Setup](http://www.golangbootcamp.com/book/get_setup)
+- [github-release](https://github.com/aktau/github-release)
 
 ```
 Copyright (c) 2017 Братья Вершинины
-```
